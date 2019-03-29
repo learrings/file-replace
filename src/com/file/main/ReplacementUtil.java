@@ -11,19 +11,17 @@ import java.io.OutputStreamWriter;
 import com.file.main.Replacement.ReplaceObj;
 import com.file.main.Replacement.ReplaceType;
 
-public class ReplacementUtil {
+class ReplacementUtil {
 
 	private static String ENCODING = "UTF-8";
-	
+
 	/**
 	 * 批量重命名，不含根路径
-	 * 
-	 * @param replacementChain
-	 *            - 替换信息
-	 * @param replaceType
-	 *            - 替换方式
+	 *
+	 * @param replacementChain - 替换信息
+	 * @param replaceType      - 替换方式
 	 */
-	public static void multiRename(String path, Replacement replacement, ReplaceType replaceType) {
+	static void multiRename(String path, Replacement replacement, ReplaceType replaceType) {
 		directoryReplace(new File(path), replacement, replaceType);
 	}
 
@@ -36,9 +34,12 @@ public class ReplacementUtil {
 	private static void directoryReplace(File file, Replacement replacement, ReplaceType replaceType) {
 		if (file.isDirectory()) {
 			File[] files = file.listFiles();
-			/** 递归遍历所有文件* */
-			for (int i = 0; i < files.length; i++) {
-				directoryReplace(files[i], replacement, replaceType);
+			if (files == null || files.length == 0) {
+				return;
+			}
+			/* 递归遍历所有文件* */
+			for (File file1 : files) {
+				directoryReplace(file1, replacement, replaceType);
 			}
 		} else {
 			contentReplace(file, replacement, replaceType);
@@ -62,7 +63,7 @@ public class ReplacementUtil {
 
 		int extendIndex = file.getName().lastIndexOf(".");
 
-		String fileName = null;
+		String fileName;
 		if (extendIndex > 0) {
 			fileName = file.getName().substring(0, extendIndex);
 		} else {
@@ -78,8 +79,12 @@ public class ReplacementUtil {
 			newFilePath += file.getName().substring(extendIndex, file.getName().length());
 		}
 
-		file.renameTo(new File(newFilePath));
-		System.out.println("======>【"+file.getAbsolutePath() + "】重命名成功。");
+		boolean renameResult = file.renameTo(new File(newFilePath));
+		if (renameResult) {
+			System.out.println("======>【" + file.getAbsolutePath() + "】重命名成功。");
+		} else {
+			System.out.println("======>【" + file.getAbsolutePath() + "】重命名失败。");
+		}
 	}
 
 	/**
@@ -101,7 +106,7 @@ public class ReplacementUtil {
 
 			StringBuilder content = new StringBuilder();
 
-			String lineWriter = null;
+			String lineWriter;
 			while ((lineWriter = read.readLine()) != null) {
 				content.append(lineWriter);
 				content.append("\r\n");
@@ -111,7 +116,7 @@ public class ReplacementUtil {
 
 			String contentStr = content.toString();
 			if (MessyCodeCheck.isMessyCode(contentStr)) {
-				throw new Exception("此文件编码方式不是"+ENCODING+"，无法转换。");
+				throw new Exception("此文件编码方式不是" + ENCODING + "，无法转换。");
 			}
 			for (ReplaceObj replaceObj : replacement.getIncludeList()) {
 				contentStr = contentStr.replace(replaceObj.getOldStr(), replaceObj.getNewStr());
@@ -122,10 +127,10 @@ public class ReplacementUtil {
 			bw.write(contentStr);
 			bw.flush();
 			bw.close();
-			
-			System.out.println("======>【"+file.getAbsolutePath() + "】文件内容替换成功。");
+
+			System.out.println("======>【" + file.getAbsolutePath() + "】文件内容替换成功。");
 		} catch (Exception e) {
-			System.out.println("======>【"+file.getAbsolutePath() + "】文件内容替换失败："+e.getMessage());
+			System.out.println("======>【" + file.getAbsolutePath() + "】文件内容替换失败：" + e.getMessage());
 		}
 	}
 

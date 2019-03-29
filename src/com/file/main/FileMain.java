@@ -11,12 +11,15 @@ import com.file.main.Replacement.ReplaceType;
 public class FileMain {
 
 	public static void main(String[] args) {
-		String path = "D:\\Eclipse-Workspace3\\test";
+		// 文件路径
+		String path = "D:\\workspace\\test";
 		Replacement replacement = new Replacement();
 		replacement.addInclude("aa", "ww");
+		replacement.addInclude("bb", "vv");
 
 		System.out.println("============开始替换============");
-		ReplacementUtil.multiRename(path, replacement, ReplaceType.All);
+		ReplacementUtil.multiRename(path, replacement, ReplaceType.CONTENT);
+		ReplacementUtil.multiRename(path, replacement, ReplaceType.FILE);
 		System.out.println("============结束替换============");
 	}
 }

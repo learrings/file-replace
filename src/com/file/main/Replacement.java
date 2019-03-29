@@ -3,20 +3,19 @@ package com.file.main;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Replacement {
+class Replacement {
 
 	private List<ReplaceObj> includeList = new ArrayList<>();// 替换信息
 
-	public Replacement addInclude(String oldStr, String newStr) {
+	void addInclude(String oldStr, String newStr) {
 		this.includeList.add(new ReplaceObj(oldStr, newStr));
-		return this;
 	}
 
-	public List<ReplaceObj> getIncludeList() {
+	List<ReplaceObj> getIncludeList() {
 		return includeList;
 	}
 
-	public class ReplaceObj {
+	class ReplaceObj {
 
 		ReplaceObj(String oldStr, String newStr) {
 			this.oldStr = oldStr;
@@ -26,11 +25,11 @@ public class Replacement {
 		private String oldStr;
 		private String newStr;
 
-		public String getOldStr() {
+		String getOldStr() {
 			return oldStr;
 		}
 
-		public String getNewStr() {
+		String getNewStr() {
 			return newStr;
 		}
 
@@ -43,6 +42,11 @@ public class Replacement {
 	 * @createDate 2017年12月29日
 	 */
 	enum ReplaceType {
-		CONTENT, FILE, All
+		/* 只更新文件内容 */
+		CONTENT,
+		/* 只更新文件名 */
+		FILE,
+		/* 全部 */
+		All
 	}
 }
