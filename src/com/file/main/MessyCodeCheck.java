@@ -42,7 +42,7 @@ public class MessyCodeCheck {
 	}
 
 	public static void main(String[] args) {
-		// 乱码判断
+		// 针对乱码校验
 		System.out.println(isMessyCode("*��JTP.jar�ļ����JTP�ļ���ȡ��ͼƬ��Դ"));
 		System.out.println(isMessyCode("dd"));
 		System.out.println(isMessyCode("你好"));
