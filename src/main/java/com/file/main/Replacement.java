@@ -5,7 +5,7 @@ import java.util.List;
 
 class Replacement {
 
-    private final List<ReplaceObj> includeList = new ArrayList<>();// 替换信息
+    private final List<ReplaceObj> includeList = new ArrayList<>();// 替换信息2
 
     void addInclude(String oldStr, String newStr) {
         this.includeList.add(new ReplaceObj(oldStr, newStr));
@@ -39,7 +39,7 @@ class Replacement {
      * 替换类型
      *
      * @author learrings
-     * @createDate 2017年12月29日
+     * @createDate - 2017年12月29日
      */
     enum ReplaceType {
         /* 只更新文件内容 */
